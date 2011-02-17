@@ -12,7 +12,7 @@ import constants
 
 
 __app_name__ = constants.__app_name__
-__description__ = """Remake of the Gorillas.bas banana artillary game
+__description__ = """Remake of the Gorillas.bas banana artillery game
 REPLACEME
 .
 Homepage: REPLACEME
