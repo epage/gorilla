@@ -22,7 +22,7 @@ __email__ = "eopage@byu.net"
 __version__ = constants.__version__
 __build__ = constants.__build__
 __changelog__ = """
-* Initial packaging for Maemo
+* Fixing a launch issue
 """.strip()
 
 
