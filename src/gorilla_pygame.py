@@ -22,27 +22,11 @@ Unfortunately there is no sound with this game.
 
 import pygame, sys, time, random, math
 from pygame.locals import *
-"""We'll import quite a few modules for this game. "pygame" has all the graphics & game-related functions that the
-Pygame game engine provides. "sys" has the exit() function. "time" has the sleep() function. "random" has the randint()
-function, and "math" contains the pi constant."""
-
-"""All of the variables below in CAPS LETTERS are constants, that is, they are only supposed to be read and not
-modified. (There's nothing to keep the program from modifying them, but it's just a convention programmers use.
-The constants are a bit more descriptive than just using the numbers by themselves. And if you ever want to change
-some value (such as the size of the explosions or the color of the gorillas), you only have to change it in one
-place."""
 
 SCR_WIDTH = 800
 SCR_HEIGHT = 480
 FPS = 60
 GAME_CLOCK = pygame.time.Clock()
-"""Here are several constants we will use in the game. The original Qbasic game had a screen size of 640x350, so we'll
-use that as our screen size. We will use a single global Clock object to handle some of the timing stuff in all our
-functions, and generally have FPS set to 30 (except when we want to set it to something else.
-
-Constants are useful because you can just change the value in one place, and it will be used throughout the program.
-
-Try experimenting with different values for these global constants."""
 
 BUILDING_COLORS = ((173, 170, 173), (0, 170, 173), (173, 0, 0))
 LIGHT_WINDOW = (255, 255, 82)
@@ -56,44 +40,27 @@ DARK_RED_COLOR = (173, 0, 0)
 BLACK_COLOR = (0, 0, 0)
 WHITE_COLOR = (255, 255, 255)
 GRAY_COLOR = (173, 170, 173)
-"""Here are a bunch of colors. Pygame uses a tuple of three integers to specify a color. The integers are for the
-amount of Red, Blue, and Green (in order) in the color. This is known as an RGB value.
-
-BUILDING_COLORS will hold a tuple of these RGB tuples and represent the different colors the buildings can be."""
 
 BUILD_EXPLOSION_SIZE = int(SCR_HEIGHT / 50)
 GOR_EXPLOSION_SIZE = 30
-"""BUILD_EXPLOSION_SIZE holds the size of an explosion when a banana hits a building, and GOR_EXPLOSION_SIZE is the size
-when it hits a gorilla."""
 
 SUN_X = SCR_WIDTH / 2
 SUN_Y = SCR_HEIGHT / 20
-"""The position of the sun in the sky."""
 
 pygame.init()
 GAME_FONT = pygame.font.SysFont(None, 20)
-"""The pygame.init() function needs to be called before calling any of the Pygame functions.
-We will use the default system font at a size of 20 points."""
 
 # orientation of the banana:
 RIGHT = 0
 UP = 1
 LEFT = 2
 DOWN = 3
-"""Some constants for the direction the banana (or anything else) faces."""
 
 # gorilla arms drawing types
 BOTH_ARMS_DOWN = 0
 LEFT_ARM_UP = 1
 RIGHT_ARM_UP = 2
-"""Some constants for which of the three gorilla sprites to use: both arms down, left arm up, or right arm up."""
 
-
-"""The following multiline strings are used with the makeSurfaceFromASCII() function. It's basically a way of
-generating Surfaces other than using the drawing functions or including graphic files along with this .py file.
-
-Try experimenting by changing the strings. The first and last line are ignored (so you don't have to deal with
-indentation issues in the string)."""
 
 STAR_ASCII = """
 
@@ -322,8 +289,6 @@ def makeSurfaceFromASCII(ascii, fgColor=(255,255,255), bgColor=(0,0,0)):
     and any other letter marks a pixel of the background color. The Surface object has a width of the widest line
     in the ascii string, and is always rectangular."""
 
-    """Try experimenting with this function so that you can specify more than two colors. (Pass a dict of
-    ascii letters and RGB tuples, say."""
     ascii = ascii.split('\n')[1:-1]
     width = max([len(x) for x in ascii])
     height = len(ascii)
@@ -349,10 +314,8 @@ SUN_SHOCKED_SURF = makeSurfaceFromASCII(SUN_SHOCKED_ASCII, SUN_COLOR,      SKY_C
 STAR_SURF        = makeSurfaceFromASCII(STAR_ASCII,        DARK_RED_COLOR, BLACK_COLOR)
 
 assert GOR_DOWN_SURF.get_size() == GOR_LEFT_SURF.get_size() == GOR_RIGHT_SURF.get_size()
-"""Create the pygame.Surface objects from the ASCII strings."""
 
 sunRect = pygame.Rect(SUN_X, SUN_Y, SUN_NORMAL_SURF.get_width(), SUN_NORMAL_SURF.get_height())
-"""sunRect will be a global value so we'll always know where the sun is."""
 
 def drawText(text, surfObj, x, y, fgcol, bgcol, pos='left'):
     """A generic function to draw a string to a pygame.Surface object at a certain x,y location. This returns
@@ -738,7 +701,7 @@ def showSettingsScreen(screenSurf):
 
     while choice is None:
         choice = inputMode("Your Choice?  ", screenSurf, SCR_WIDTH / 2 - 15, 260, GRAY_COLOR, BLACK_COLOR, maxlen=1, allowed='vp', pos='left', cursorBlink=True)
-                   
+
     return p1name, p2name, points, gravity, choice # returns 'v' or 'p'
 
 def showIntroScreen(screenSurf, p1name, p2name):
