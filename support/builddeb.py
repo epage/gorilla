@@ -12,7 +12,7 @@ import constants
 
 
 __app_name__ = constants.__app_name__
-__description__ = """REPLACEME
+__description__ = """Remake of the Gorillas.bas banana artillary game
 REPLACEME
 .
 Homepage: REPLACEME
@@ -22,7 +22,7 @@ __email__ = "eopage@byu.net"
 __version__ = constants.__version__
 __build__ = constants.__build__
 __changelog__ = """
-REPLACEME
+* Initial packaging for Maemo
 """.strip()
 
 
@@ -72,22 +72,17 @@ def build_package(distribution):
 	p.license = "lgpl"
 	p.depends = ", ".join([
 		"python2.6 | python2.5",
-		"python-gtk2 | python2.5-gtk2",
-		"python-xml | python2.5-xml",
-		"python-dbus | python2.5-dbus",
+		"python-simplejson",
 	])
-	maemoSpecificDepends = ", python-osso | python2.5-osso, python-hildon | python2.5-hildon"
 	p.depends += {
-		"debian": ", python-glade2",
-		"diablo": maemoSpecificDepends + ", python2.5-conic",
-		"fremantle": maemoSpecificDepends + ", python-glade2, python-alarm",
+		"debian": ", python-qt4, python-pygame",
+		"diablo": ", python2.5-qt4-core, python2.5-qt4-gui, python2.5-pygame",
+		"fremantle": ", python2.5-qt4-core, python2.5-qt4-gui, python2.5-qt4-maemo5, python-pygame",
 	}[distribution]
-	p.recommends = ", ".join([
-	])
 	p.section = {
-		"debian": "REPLACEME",
-		"diablo": "user/REPLACEME",
-		"fremantle": "user/REPLACEME",
+		"debian": "games",
+		"diablo": "user/games",
+		"fremantle": "user/games",
 	}[distribution]
 	p.arch = "all"
 	p.urgency = "low"
@@ -97,9 +92,9 @@ def build_package(distribution):
 	p.postinstall = __postinstall__
 	p.preremove = __preremove__
 	p.icon = {
-		"debian": "REPLACEME",
-		"diablo": "REPLACEME",
-		"fremantle": "REPLACEME", # Fremantle natively uses 48x48
+		"debian": "26x26-%s.png" % constants.__app_name__,
+		"diablo": "26x26-%s.png" % constants.__app_name__,
+		"fremantle": "48x48-%s.png" % constants.__app_name__,
 	}[distribution]
 	p["/opt/%s/bin" % constants.__app_name__] = [ "%s.py" % constants.__app_name__ ]
 	for relPath, files in unflatten_files(find_files("src", ".")).iteritems():
@@ -111,10 +106,9 @@ def build_package(distribution):
 			for (oldName, newName) in files
 		)
 	p["/usr/share/applications/hildon"] = ["%s.desktop" % constants.__app_name__]
-	p["/usr/share/icons/hicolor/26x26/hildon"] = ["%s.png" % constants.__app_name__]
-	p["/usr/share/icons/hicolor/48x48/hildon"] = ["%s.png" % constants.__app_name__]
-	p["/usr/share/icons/hicolor/64x64/hildon"] = ["%s.png" % constants.__app_name__]
-	p["/usr/share/icons/hicolor/scalable/hildon"] = ["%s.png" % constants.__app_name__]
+	p["/usr/share/icons/hicolor/26x26/hildon"] = ["26x26-%s.png|%s.png" % (constants.__app_name__, constants.__app_name__)]
+	p["/usr/share/icons/hicolor/48x48/hildon"] = ["48x48-%s.png|%s.png" % (constants.__app_name__, constants.__app_name__)]
+	p["/usr/share/icons/hicolor/64x64/hildon"] = ["64x64-%s.png|%s.png" % (constants.__app_name__, constants.__app_name__)]
 
 	print p
 	if distribution == "debian":

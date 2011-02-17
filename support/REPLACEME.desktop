@@ -1,7 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Version=1.0
-Type=Application
-Name=REPLACEME
-Exec=/usr/bin/run-standalone.sh REPLACEME.py
-Icon=REPLACEME

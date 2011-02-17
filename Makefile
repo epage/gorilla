@@ -1,4 +1,4 @@
-PROJECT_NAME=REPLACEME
+PROJECT_NAME=gorilla
 SOURCE_PATH=src
 SOURCE=$(shell find $(SOURCE_PATH) -iname "*.py")
 PROGRAM=$(SOURCE_PATH)/$(PROJECT_NAME).py
@@ -46,9 +46,9 @@ package: $(OBJ)
 	$(foreach file, $(DATA), cp $(file) $(BUILD_PATH)/generic/$(subst /,-,$(file)) ; )
 	$(foreach file, $(SOURCE), cp $(file) $(BUILD_PATH)/generic/$(subst /,-,$(file)) ; )
 	cp support/$(PROJECT_NAME).desktop $(BUILD_PATH)/generic
-	cp support/icons/hicolor/26x26/hildon/$(PROJECT_NAME).png $(BUILD_PATH)/generic/26x26-$(PROJECT_NAME).png
-	cp support/icons/hicolor/64x64/hildon/$(PROJECT_NAME).png $(BUILD_PATH)/generic/64x64-$(PROJECT_NAME).png
-	cp support/icons/hicolor/scalable/hildon/$(PROJECT_NAME).png $(BUILD_PATH)/generic/scale-$(PROJECT_NAME).png
+	cp support/icons/26x26-$(PROJECT_NAME).png $(BUILD_PATH)/generic/26x26-$(PROJECT_NAME).png
+	cp support/icons/48x48-$(PROJECT_NAME).png $(BUILD_PATH)/generic/48x48-$(PROJECT_NAME).png
+	cp support/icons/64x64-$(PROJECT_NAME).png $(BUILD_PATH)/generic/64x64-$(PROJECT_NAME).png
 	cp support/builddeb.py $(BUILD_PATH)/generic
 	cp support/py2deb.py $(BUILD_PATH)/generic
 	cp support/fake_py2deb.py $(BUILD_PATH)/generic

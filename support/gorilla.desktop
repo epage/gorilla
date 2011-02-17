@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Terminal=false
+Name=Gorillas
+Exec=/opt/gorilla/bin/gorilla.py
+Icon=gorilla
+X-Window-Icon=gorilla
+X-HildonDesk-ShowinToolbar=true
+X-Osso-Type=application/x-executable
