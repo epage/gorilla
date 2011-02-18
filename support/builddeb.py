@@ -21,7 +21,11 @@ __email__ = "eopage@byu.net"
 __version__ = constants.__version__
 __build__ = constants.__build__
 __changelog__ = """
-* Fixing a launch issue
+* Code cleanup
+* Fixed score location
+* Fixed the clock so the animations are timed correctly
+* Fixing a back with the backspace key
+* Visual elements improvements from StefanL
 """.strip()
 
 
