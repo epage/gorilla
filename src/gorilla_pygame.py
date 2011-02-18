@@ -798,12 +798,12 @@ def doExplosion(screenSurf, skylineSurf, x, y, explosionSize=BUILD_EXPLOSION_SIZ
 
 def main():
     pygame.mouse.set_visible(False)
-    winSurface = pygame.display.set_mode((SCR_WIDTH, SCR_HEIGHT), pygame.FULLSCREEN|pygame.HWSURFACE)
     """winSurface, being the surface object returned by pygame.display.set_mode(), will be drawn to the screen
     every time pygame.display.update() is called."""
 
     # Uncomment either of the following lines to put the game into full screen mode.
     ##winSurface = pygame.display.set_mode((SCR_WIDTH, SCR_HEIGHT), pygame.FULLSCREEN, 32)
+    winSurface = pygame.display.set_mode((SCR_WIDTH, SCR_HEIGHT), pygame.FULLSCREEN|pygame.HWSURFACE)
     ##pygame.display.toggle_fullscreen()
     pygame.display.set_caption('Gorillas.py')
 
