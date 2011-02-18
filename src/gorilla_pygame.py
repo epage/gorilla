@@ -36,7 +36,7 @@ _moduleLogger = logging.getLogger(__name__)
 
 SCR_WIDTH = 800
 SCR_HEIGHT = 480
-FPS = 60
+FPS = 30
 GAME_CLOCK = pygame.time.Clock()
 
 BUILDING_COLORS = ((173, 170, 173), (0, 170, 173), (173, 0, 0))
