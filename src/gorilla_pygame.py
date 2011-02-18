@@ -167,6 +167,11 @@ def inputMode(prompt, screenSurf, x, y, fgcol, bgcol, maxlen=12, allowed=None, p
     while not done:
         """We will keep looping until the player has pressed the Esc or Enter key."""
 
+        textrect = drawText(prompt + cursorShow, screenSurf, x, y, fgcol, bgcol, pos)
+        drawText(prompt + inputText + cursorShow, screenSurf, textrect.left, textrect.top, fgcol, bgcol, 'left')
+        pygame.display.update()
+        GAME_CLOCK.tick(FPS)
+
         if cursor and cursorBlink and time.time() - 1.0 > cursorTimestamp:
             if cursorShow == cursor:
                 cursorShow = '   '
@@ -187,7 +192,7 @@ def inputMode(prompt, screenSurf, x, y, fgcol, bgcol, maxlen=12, allowed=None, p
                         cursorShow = '   '
                 elif event.key == pygame.locals.K_BACKSPACE:
                     if len(inputText):
-                        drawText(prompt + inputText + cursorShow, screenSurf, pygame.locals.textrect.left, pygame.locals.textrect.top, bgcol, bgcol, 'left')
+                        drawText(prompt + inputText + cursorShow, screenSurf, textrect.left, textrect.top, bgcol, bgcol, 'left')
                         inputText = inputText[:-1]
                 else:
                     if len(inputText) >= maxlen or (allowed is not None and event.unicode not in allowed):
@@ -196,11 +201,6 @@ def inputMode(prompt, screenSurf, x, y, fgcol, bgcol, maxlen=12, allowed=None, p
                         inputText += getModCase(chr(event.key), event.mod)
                     elif event.unicode in ('0123456789'):
                         inputText += getModCase(event.unicode, event.mod)
-
-        textrect = drawText(prompt + cursorShow, screenSurf, x, y, fgcol, bgcol, pos)
-        drawText(prompt + inputText + cursorShow, screenSurf, textrect.left, textrect.top, fgcol, bgcol, 'left')
-        pygame.display.update()
-        GAME_CLOCK.tick(FPS)
     return inputText
 
 
