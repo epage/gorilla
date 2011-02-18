@@ -20,9 +20,15 @@ The Pygame documentation is pretty good, and can be found at http://www.pygame.o
 Unfortunately there is no sound with this game.
 """
 
-import pygame, sys, time, random, math
-import images
+import sys
+import time
+import random
+import math
+
+import pygame
 import pygame.locals
+
+import images
 
 SCR_WIDTH = 800
 SCR_HEIGHT = 480
@@ -69,6 +75,7 @@ def terminate():
     pygame.quit()
     sys.exit()
 
+
 def makeSurfaceFromASCII(ascii, fgColor=(255, 255, 255), bgColor=(0, 0, 0)):
     """Returns a new pygame.Surface object that has the image drawn on it as specified by the ascii parameter.
     The first and last line in ascii are ignored. Otherwise, any X in ascii marks a pixel with the foreground color
@@ -88,20 +95,22 @@ def makeSurfaceFromASCII(ascii, fgColor=(255, 255, 255), bgColor=(0, 0, 0)):
                 pArr[x][y] = fgColor
     return surf
 
-GOR_DOWN_SURF    = makeSurfaceFromASCII(images.GOR_DOWN_ASCII,    GOR_COLOR,      SKY_COLOR)
-GOR_LEFT_SURF    = makeSurfaceFromASCII(images.GOR_LEFT_ASCII,    GOR_COLOR,      SKY_COLOR)
-GOR_RIGHT_SURF   = makeSurfaceFromASCII(images.GOR_RIGHT_ASCII,   GOR_COLOR,      SKY_COLOR)
-BAN_RIGHT_SURF   = makeSurfaceFromASCII(images.BAN_RIGHT_ASCII,   BAN_COLOR,      SKY_COLOR)
-BAN_LEFT_SURF    = makeSurfaceFromASCII(images.BAN_LEFT_ASCII,    BAN_COLOR,      SKY_COLOR)
-BAN_UP_SURF      = makeSurfaceFromASCII(images.BAN_UP_ASCII,      BAN_COLOR,      SKY_COLOR)
-BAN_DOWN_SURF    = makeSurfaceFromASCII(images.BAN_DOWN_ASCII,    BAN_COLOR,      SKY_COLOR)
-SUN_NORMAL_SURF  = makeSurfaceFromASCII(images.SUN_NORMAL_ASCII,  SUN_COLOR,      SKY_COLOR)
-SUN_SHOCKED_SURF = makeSurfaceFromASCII(images.SUN_SHOCKED_ASCII, SUN_COLOR,      SKY_COLOR)
-STAR_SURF        = makeSurfaceFromASCII(images.STAR_ASCII,        DARK_RED_COLOR, BLACK_COLOR)
+
+GOR_DOWN_SURF = makeSurfaceFromASCII(images.GOR_DOWN_ASCII, GOR_COLOR, SKY_COLOR)
+GOR_LEFT_SURF = makeSurfaceFromASCII(images.GOR_LEFT_ASCII, GOR_COLOR, SKY_COLOR)
+GOR_RIGHT_SURF = makeSurfaceFromASCII(images.GOR_RIGHT_ASCII, GOR_COLOR, SKY_COLOR)
+BAN_RIGHT_SURF = makeSurfaceFromASCII(images.BAN_RIGHT_ASCII, BAN_COLOR, SKY_COLOR)
+BAN_LEFT_SURF = makeSurfaceFromASCII(images.BAN_LEFT_ASCII, BAN_COLOR, SKY_COLOR)
+BAN_UP_SURF = makeSurfaceFromASCII(images.BAN_UP_ASCII, BAN_COLOR, SKY_COLOR)
+BAN_DOWN_SURF = makeSurfaceFromASCII(images.BAN_DOWN_ASCII, BAN_COLOR, SKY_COLOR)
+SUN_NORMAL_SURF = makeSurfaceFromASCII(images.SUN_NORMAL_ASCII, SUN_COLOR, SKY_COLOR)
+SUN_SHOCKED_SURF = makeSurfaceFromASCII(images.SUN_SHOCKED_ASCII, SUN_COLOR, SKY_COLOR)
+STAR_SURF = makeSurfaceFromASCII(images.STAR_ASCII, DARK_RED_COLOR, BLACK_COLOR)
 
 assert GOR_DOWN_SURF.get_size() == GOR_LEFT_SURF.get_size() == GOR_RIGHT_SURF.get_size()
 
 sunRect = pygame.Rect(SUN_X, SUN_Y, SUN_NORMAL_SURF.get_width(), SUN_NORMAL_SURF.get_height())
+
 
 def drawText(text, surfObj, x, y, fgcol, bgcol, pos='left'):
     """A generic function to draw a string to a pygame.Surface object at a certain x,y location. This returns
@@ -122,12 +131,14 @@ def drawText(text, surfObj, x, y, fgcol, bgcol, pos='left'):
     returned from the call to pygame.display.set_mode(), and only after pygame.display.update() is called."""
     return textrect
 
+
 def getModCase(s, mod):
     """Checks the state of the shift and caps lock keys, and switches the case of the s string if needed."""
     if bool(mod & pygame.locals.KMOD_RSHIFT or mod & pygame.locals.KMOD_LSHIFT) ^ bool(mod & pygame.locals.KMOD_CAPS):
         return s.swapcase()
     else:
         return s
+
 
 def inputMode(prompt, screenSurf, x, y, fgcol, bgcol, maxlen=12, allowed=None, pos='left', cursor='_', cursorBlink=False):
     """Takes control of the program when called. This function displays a prompt on the screen (the "prompt" string)
@@ -188,6 +199,7 @@ def inputMode(prompt, screenSurf, x, y, fgcol, bgcol, maxlen=12, allowed=None, p
         GAME_CLOCK.tick(FPS)
     return inputText
 
+
 def nextBananaShape(orient):
     """Returns the next banana shape in the sequence of 0, 1, 2, 3, then 0 again. (These correspond to the RIGHT, UP,
     LEFT, and DOWN variables."""
@@ -195,6 +207,7 @@ def nextBananaShape(orient):
         return 0
     else:
         return orient + 1
+
 
 def drawBanana(screenSurf, orient, x, y):
     """Draws the banana shape to the screenSurf surface with its top left corner at the x y coordinate provided.
@@ -208,6 +221,7 @@ def drawBanana(screenSurf, orient, x, y):
     elif orient == RIGHT:
         screenSurf.blit(BAN_RIGHT_SURF, (x, y))
 
+
 def drawSun(screenSurf, shocked=False):
     """Draws the sun sprite onto the screenSurf surface. If shocked is True, then use the shocked-looking face,
     otherwise use the normal smiley face. This function does not call python.display.update()"""
@@ -215,6 +229,7 @@ def drawSun(screenSurf, shocked=False):
         screenSurf.blit(SUN_SHOCKED_SURF, (SUN_X, SUN_Y))
     else:
         screenSurf.blit(SUN_NORMAL_SURF, (SUN_X, SUN_Y))
+
 
 def drawGorilla(screenSurf, x, y, arms=BOTH_ARMS_DOWN):
     """Draws the gorilla sprite onto the screenSurf surface at a specific x, y coordinate. The x,y coordinate
@@ -231,6 +246,7 @@ def drawGorilla(screenSurf, x, y, arms=BOTH_ARMS_DOWN):
     pygame.display.update() is called."""
 
     screenSurf.blit(gorSurf, (x, y))
+
 
 def makeCityScape():
     """This function creates and returns a new cityscape of various buildings on a pygame.Surface object and returns
@@ -328,6 +344,7 @@ def makeCityScape():
     # We want to return both the surface object we've drawn the buildings on, and the coordinates of each building.
     return screenSurf, buildingCoords
 
+
 def placeGorillas(buildCoords):
     """Using the buildingCoords value returned from makeCityScape(), we want to place the gorillas on the left and right
     side of the screen on the second or third building from the edge."""
@@ -350,12 +367,14 @@ def placeGorillas(buildCoords):
     # The format of the gorPos list is [(p1 x, p1 y), (p2 x, p2 y)]
     return gorPos
 
+
 def waitForPlayerToPressKey():
     """Calling this function will pause the program until the user presses a key. The key is returned."""
     while True:
         key = checkForKeyPress()
         if key:
             return key
+
 
 def checkForKeyPress():
     """Calling this function will check if a key has recently been pressed. If so, the key is returned.
@@ -370,6 +389,7 @@ def checkForKeyPress():
         if event.type == pygame.locals.MOUSEBUTTONDOWN:
             return True
     return False
+
 
 def showStartScreen(screenSurf):
     """Draws the starting introductory screen to screenSurf, with red stars rotating around the border. This screen
@@ -399,6 +419,7 @@ def showStartScreen(screenSurf):
 
         pygame.display.update()
         GAME_CLOCK.tick(FPS)
+
 
 def showGameOverScreen(screenSurf, p1name, p1score, p2name, p2score):
     """Draws the game over screen to screenSurf, showing the players' names and scores. This screen has rotating
@@ -431,6 +452,7 @@ def showGameOverScreen(screenSurf, p1name, p1score, p2name, p2score):
         pygame.display.update()
         GAME_CLOCK.tick(FPS)
 
+
 def drawStars(screenSurf, vertAdj, horAdj):
     """This function draws the red stars on the border of screenSurf."""
     for i in range(20):
@@ -444,6 +466,7 @@ def drawStars(screenSurf, vertAdj, horAdj):
         screenSurf.blit(STAR_SURF, (5, 6 + STAR_SURF.get_height() + (horAdj + i * 84)))
         # draw right column of stars going up
         screenSurf.blit(STAR_SURF, (SCR_WIDTH - 5 - STAR_SURF.get_width(), (SCR_HEIGHT - (6 + STAR_SURF.get_height() + (horAdj + i * 84)))))
+
 
 def showSettingsScreen(screenSurf):
     """This is the screen that lets the user type in their name and settings for the game."""
@@ -494,6 +517,7 @@ def showSettingsScreen(screenSurf):
 
     return p1name, p2name, points, gravity, choice # returns 'v' or 'p'
 
+
 def showIntroScreen(screenSurf, p1name, p2name):
     """This is the screen that plays if the user selected "view intro" from the starting screen."""
     screenSurf.fill(SKY_COLOR)
@@ -529,6 +553,7 @@ def showIntroScreen(screenSurf, p1name, p2name):
         pygame.display.update()
 
         time.sleep(0.3)
+
 
 def getShot(screenSurf, p1name, p2name, playerNum):
     """getShot() is called when we want to get the angle and velocity from the player."""
@@ -567,9 +592,12 @@ def getShot(screenSurf, p1name, p2name, playerNum):
 
     return (angle, velocity)
 
+
 def displayScore(screenSurf, oneScore, twoScore):
     """Draws the score on the screenSurf surface."""
-    drawText(str(oneScore) + '>Score<' + str(twoScore), screenSurf, 270, 310, WHITE_COLOR, SKY_COLOR, pos='left')
+    scoreMessage = str(oneScore) + '>Score<' + str(twoScore)
+    drawText(scoreMessage, screenSurf, 270, 310, WHITE_COLOR, SKY_COLOR, pos='left')
+
 
 def plotShot(screenSurf, skylineSurf, angle, velocity, playerNum, wind, gravity, gor1, gor2):
     # startx and starty is the upper left corner of the gorilla.
@@ -579,7 +607,6 @@ def plotShot(screenSurf, skylineSurf, angle, velocity, playerNum, wind, gravity,
     gorWidth, gorHeight = GOR_DOWN_SURF.get_size()
     gor1rect = pygame.Rect(gor1[0], gor1[1], gorWidth, gorHeight)
     gor2rect = pygame.Rect(gor2[0], gor2[1], gorWidth, gorHeight)
-
 
     if playerNum == 1:
         gorImg = LEFT_ARM_UP
@@ -686,6 +713,7 @@ def plotShot(screenSurf, skylineSurf, angle, velocity, playerNum, wind, gravity,
     drawSun(screenSurf)
     return 'miss'
 
+
 def victoryDance(screenSurf, x, y):
     """Given the x,y coordinates of the topleft corner of the gorilla sprite, this goes through
     the victory dance routine of the gorilla where they start waving their arms in the air."""
@@ -696,6 +724,7 @@ def victoryDance(screenSurf, x, y):
         screenSurf.blit(GOR_RIGHT_SURF, (x, y))
         pygame.display.update()
         time.sleep(0.3)
+
 
 def collideWithNonColor(pixArr, surfObj, rect, color):
     """This checks the area (described by "rect") on pixArr (a pixel array derived from the surfObj surface object)
@@ -721,12 +750,14 @@ def getBananaRect(x, y, shape):
     if shape == RIGHT:
         return pygame.Rect((x, y), BAN_RIGHT_SURF.get_size())
 
+
 def getWind():
     """Randomly determine what the wind speed and direction should be for this game."""
     wind = random.randint(5, 15)
     if random.randint(0, 1):
         wind *= -1
     return wind
+
 
 def drawWind(screenSurf, wind):
     """Draws the wind arrow on the screenSurf object at the bottom of the screen. The "wind" parameter comes from
@@ -741,6 +772,7 @@ def drawWind(screenSurf, wind):
             arrowDir = 2
         pygame.draw.line(screenSurf, EXPLOSION_COLOR, (int(SCR_WIDTH / 2) + wind, SCR_HEIGHT - 5), (int(SCR_WIDTH / 2) + wind + arrowDir, SCR_HEIGHT - 5 - 2))
         pygame.draw.line(screenSurf, EXPLOSION_COLOR, (int(SCR_WIDTH / 2) + wind, SCR_HEIGHT - 5), (int(SCR_WIDTH / 2) + wind + arrowDir, SCR_HEIGHT - 5 + 2))
+
 
 def doExplosion(screenSurf, skylineSurf, x, y, explosionSize=BUILD_EXPLOSION_SIZE, speed=0.05):
     for r in range(1, explosionSize):
@@ -758,6 +790,7 @@ def doExplosion(screenSurf, skylineSurf, x, y, explosionSize=BUILD_EXPLOSION_SIZ
     pygame.draw.circle(screenSurf, SKY_COLOR, (x, y), 2)
     pygame.draw.circle(skylineSurf, SKY_COLOR, (x, y), 2)
     pygame.display.update()
+
 
 def main():
     pygame.mouse.set_visible(False)
@@ -827,4 +860,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
