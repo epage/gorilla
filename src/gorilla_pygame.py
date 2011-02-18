@@ -400,6 +400,7 @@ def showStartScreen(screenSurf):
     remains until the user presses a key."""
     vertAdj = 0
     horAdj = 0
+    # Clear the event stack
     while not checkForKeyPress():
         screenSurf.fill(BLACK_COLOR)
 
@@ -509,15 +510,16 @@ def showSettingsScreen(screenSurf):
     drawText('--------------', screenSurf, SCR_WIDTH / 2 -10, 170, GRAY_COLOR, BLACK_COLOR, pos='center')
     drawText('V = View Intro', screenSurf, SCR_WIDTH / 2 -10, 200, GRAY_COLOR, BLACK_COLOR, pos='center')
     drawText('P = Play Game', screenSurf, SCR_WIDTH / 2 -10, 230, GRAY_COLOR, BLACK_COLOR, pos='center')
-    drawText('Your Choice?', screenSurf, SCR_WIDTH / 2 -10, 260, GRAY_COLOR, BLACK_COLOR, pos='center')
+    #drawText('Your Choice?', screenSurf, SCR_WIDTH / 2 -10, 260, GRAY_COLOR, BLACK_COLOR, pos='center')
     pygame.display.update()
 
 #    key = waitForPlayerToPressKey()
 #    while chr(key) != 'v' and chr(key) != 'p':
 #        key = waitForPlayerToPressKey()
+# The chr(key) function above does not work for the N900, use the following instead
 
     while choice is None:
-        choice = inputMode("Your Choice?  ", screenSurf, SCR_WIDTH / 2 - 15, 260, GRAY_COLOR, BLACK_COLOR, maxlen=1, allowed='vp', pos='left', cursorBlink=True)
+        choice = inputMode("Your Choice?  ", screenSurf, SCR_WIDTH / 2 - 55, 260, GRAY_COLOR, BLACK_COLOR, maxlen=1, allowed='vp', pos='left', cursorBlink=True)
 
     return p1name, p2name, points, gravity, choice # returns 'v' or 'p'
 
@@ -533,26 +535,26 @@ def showIntroScreen(screenSurf, p1name, p2name):
     y = 175
 
     for i in range(2):
-        drawGorilla(screenSurf, x-13, y, RIGHT_ARM_UP)
+        drawGorilla(screenSurf, x-47, y, RIGHT_ARM_UP)
         drawGorilla(screenSurf, x+47, y, LEFT_ARM_UP)
         pygame.display.update()
 
         time.sleep(2)
 
-        drawGorilla(screenSurf, x-13, y, LEFT_ARM_UP)
+        drawGorilla(screenSurf, x-47, y, LEFT_ARM_UP)
         drawGorilla(screenSurf, x+47, y, RIGHT_ARM_UP)
         pygame.display.update()
 
         time.sleep(1)
 
     for i in range(4):
-        drawGorilla(screenSurf, x-13, y, LEFT_ARM_UP)
+        drawGorilla(screenSurf, x-47, y, LEFT_ARM_UP)
         drawGorilla(screenSurf, x+47, y, RIGHT_ARM_UP)
         pygame.display.update()
 
         time.sleep(0.3)
 
-        drawGorilla(screenSurf, x-13, y, RIGHT_ARM_UP)
+        drawGorilla(screenSurf, x-47, y, RIGHT_ARM_UP)
         drawGorilla(screenSurf, x+47, y, LEFT_ARM_UP)
         pygame.display.update()
 
@@ -565,12 +567,12 @@ def getShot(screenSurf, p1name, p2name, playerNum):
     pygame.draw.rect(screenSurf, SKY_COLOR, (550, 0, 00, 50))
 
     drawText(p1name, screenSurf, 2, 2, WHITE_COLOR, SKY_COLOR)
-    drawText(p2name, screenSurf, 538, 2, WHITE_COLOR, SKY_COLOR)
+    drawText(p2name, screenSurf, SCR_WIDTH-100, 2, WHITE_COLOR, SKY_COLOR)
 
     if playerNum == 1:
         x = 2
     else:
-        x = 538
+        x = SCR_WIDTH-100
 
     angle = ''
     while angle == '':
@@ -600,7 +602,7 @@ def getShot(screenSurf, p1name, p2name, playerNum):
 def displayScore(screenSurf, oneScore, twoScore):
     """Draws the score on the screenSurf surface."""
     scoreMessage = str(oneScore) + '>Score<' + str(twoScore)
-    drawText(scoreMessage, screenSurf, SCR_WIDTH / 2, SCR_HEIGHT - 20, WHITE_COLOR, SKY_COLOR, pos='left')
+    drawText(scoreMessage, screenSurf, SCR_WIDTH / 2, SCR_HEIGHT - 20, WHITE_COLOR, SKY_COLOR, pos='center')
 
 
 def plotShot(screenSurf, skylineSurf, angle, velocity, playerNum, wind, gravity, gor1, gor2):
