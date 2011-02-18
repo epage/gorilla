@@ -600,7 +600,7 @@ def getShot(screenSurf, p1name, p2name, playerNum):
 def displayScore(screenSurf, oneScore, twoScore):
     """Draws the score on the screenSurf surface."""
     scoreMessage = str(oneScore) + '>Score<' + str(twoScore)
-    drawText(scoreMessage, screenSurf, 270, 310, WHITE_COLOR, SKY_COLOR, pos='left')
+    drawText(scoreMessage, screenSurf, SCR_WIDTH / 2, SCR_HEIGHT - 20, WHITE_COLOR, SKY_COLOR, pos='left')
 
 
 def plotShot(screenSurf, skylineSurf, angle, velocity, playerNum, wind, gravity, gor1, gor2):
