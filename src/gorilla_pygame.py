@@ -24,11 +24,15 @@ import sys
 import time
 import random
 import math
+import logging
 
 import pygame
 import pygame.locals
 
 import images
+
+
+_moduleLogger = logging.getLogger(__name__)
 
 SCR_WIDTH = 800
 SCR_HEIGHT = 480
@@ -859,4 +863,5 @@ def main():
         showGameOverScreen(winSurface, p1name, p1score, p2name, p2score)
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG)
     main()
