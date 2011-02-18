@@ -22,7 +22,7 @@ Unfortunately there is no sound with this game.
 
 import pygame, sys, time, random, math
 import images
-from pygame.locals import *
+import pygame.locals
 
 SCR_WIDTH = 800
 SCR_HEIGHT = 480
@@ -69,7 +69,7 @@ def terminate():
     pygame.quit()
     sys.exit()
 
-def makeSurfaceFromASCII(ascii, fgColor=(255,255,255), bgColor=(0,0,0)):
+def makeSurfaceFromASCII(ascii, fgColor=(255, 255, 255), bgColor=(0, 0, 0)):
     """Returns a new pygame.Surface object that has the image drawn on it as specified by the ascii parameter.
     The first and last line in ascii are ignored. Otherwise, any X in ascii marks a pixel with the foreground color
     and any other letter marks a pixel of the background color. The Surface object has a width of the widest line
@@ -124,7 +124,7 @@ def drawText(text, surfObj, x, y, fgcol, bgcol, pos='left'):
 
 def getModCase(s, mod):
     """Checks the state of the shift and caps lock keys, and switches the case of the s string if needed."""
-    if bool(mod & KMOD_RSHIFT or mod & KMOD_LSHIFT) ^ bool(mod & KMOD_CAPS):
+    if bool(mod & pygame.locals.KMOD_RSHIFT or mod & pygame.locals.KMOD_LSHIFT) ^ bool(mod & pygame.locals.KMOD_CAPS):
         return s.swapcase()
     else:
         return s
@@ -161,20 +161,20 @@ def inputMode(prompt, screenSurf, x, y, fgcol, bgcol, maxlen=12, allowed=None, p
 
         for event in pygame.event.get():
 #            print event # used mainly to monitor key values for the N900 hack
-            if event.type == QUIT:
+            if event.type == pygame.locals.QUIT:
                 terminate()
-            if event.type == KEYDOWN:
-               if event.key == K_ESCAPE:
+            if event.type == pygame.locals.KEYDOWN:
+                if event.key == pygame.locals.K_ESCAPE:
                     return None
-               elif event.scancode == 36: # Enter key pressed
+                elif event.scancode == 36: # Enter key pressed
                     done = True
                     if cursorShow:
                         cursorShow = '   '
-               elif event.key == K_BACKSPACE:
+                elif event.key == pygame.locals.K_BACKSPACE:
                     if len(inputText):
-                        drawText(prompt + inputText + cursorShow, screenSurf, textrect.left, textrect.top, bgcol, bgcol, 'left')
+                        drawText(prompt + inputText + cursorShow, screenSurf, pygame.locals.textrect.left, pygame.locals.textrect.top, bgcol, bgcol, 'left')
                         inputText = inputText[:-1]
-               else:
+                else:
                     if len(inputText) >= maxlen or (allowed is not None and event.unicode not in allowed):
                         continue
                     if event.key >= 32 and event.key < 128 and event.unicode not in ('0123456789'):
@@ -336,11 +336,11 @@ def placeGorillas(buildCoords):
     xAdj = int(GOR_DOWN_SURF.get_rect().width / 2)
     yAdj = GOR_DOWN_SURF.get_rect().height
 
-    for i in range(0,2): # place first and then second player
+    for i in xrange(0, 2): # place first and then second player
 
         # place gorillas on second or third building from the edge.
         if i == 0:
-            buildNum = random.randint(1,2)
+            buildNum = random.randint(1, 2)
         else:
             buildNum = random.randint(len(buildCoords)-3, len(buildCoords)-2)
 
@@ -361,13 +361,13 @@ def checkForKeyPress():
     """Calling this function will check if a key has recently been pressed. If so, the key is returned.
     If not, then False is returned. If the Esc key was pressed, then the program terminates."""
     for event in pygame.event.get():
-        if event.type == QUIT:
+        if event.type == pygame.locals.QUIT:
             terminate()
-        if event.type == KEYUP:
-            if event.key == K_ESCAPE: # pressing escape quits
+        if event.type == pygame.locals.KEYUP:
+            if event.key == pygame.locals.K_ESCAPE: # pressing escape quits
                 terminate()
             return event.key
-        if event.type == MOUSEBUTTONDOWN:
+        if event.type == pygame.locals.MOUSEBUTTONDOWN:
             return True
     return False
 
@@ -381,9 +381,11 @@ def showStartScreen(screenSurf):
 
         drawStars(screenSurf, vertAdj, horAdj)
         vertAdj += 1
-        if vertAdj == 4: vertAdj = 0
+        if vertAdj == 4:
+            vertAdj = 0
         horAdj += 12
-        if horAdj == 84: horAdj = 0
+        if horAdj == 84:
+            horAdj = 0
         """The stars on the sides of the screen move 1 pixel each iteration through this loop and reset every 4
         pixels. The stars on the top and bottom of the screen move 12 pixels each iteration and reset every 84 pixels."""
 
@@ -410,9 +412,11 @@ def showGameOverScreen(screenSurf, p1name, p1score, p2name, p2score):
 
         drawStars(screenSurf, vertAdj, horAdj)
         vertAdj += 1
-        if vertAdj == 4: vertAdj = 0
+        if vertAdj == 4:
+            vertAdj = 0
         horAdj += 12
-        if horAdj == 84: horAdj = 0
+        if horAdj == 84:
+            horAdj = 0
         """The stars on the sides of the screen move 1 pixel each iteration through this loop and reset every 4
         pixels. The stars on the top and bottom of the screen move 12 pixels each iteration and reset every 84 pixels."""
 
@@ -542,13 +546,15 @@ def getShot(screenSurf, p1name, p2name, playerNum):
     angle = ''
     while angle == '':
         angle = inputMode('Angle:  ', screenSurf, x, 18, WHITE_COLOR, SKY_COLOR, maxlen=3, allowed='0123456789')
-    if angle is None: terminate()
+    if angle is None:
+        terminate()
     angle = int(angle)
 
     velocity = ''
     while velocity == '':
         velocity = inputMode('Velocity:  ', screenSurf, x, 34, WHITE_COLOR, SKY_COLOR, maxlen=3, allowed='0123456789')
-    if velocity is None: terminate()
+    if velocity is None:
+        terminate()
     velocity = int(velocity)
 
     # Erase the user's input
@@ -729,8 +735,10 @@ def drawWind(screenSurf, wind):
         wind *= 3
         pygame.draw.line(screenSurf, EXPLOSION_COLOR, (int(SCR_WIDTH / 2), SCR_HEIGHT - 5), (int(SCR_WIDTH / 2) + wind, SCR_HEIGHT - 5))
         # draw the arrow end
-        if wind > 0: arrowDir = -2
-        else:        arrowDir = 2
+        if wind > 0:
+            arrowDir = -2
+        else:
+            arrowDir = 2
         pygame.draw.line(screenSurf, EXPLOSION_COLOR, (int(SCR_WIDTH / 2) + wind, SCR_HEIGHT - 5), (int(SCR_WIDTH / 2) + wind + arrowDir, SCR_HEIGHT - 5 - 2))
         pygame.draw.line(screenSurf, EXPLOSION_COLOR, (int(SCR_WIDTH / 2) + wind, SCR_HEIGHT - 5), (int(SCR_WIDTH / 2) + wind + arrowDir, SCR_HEIGHT - 5 + 2))
 
@@ -753,7 +761,7 @@ def doExplosion(screenSurf, skylineSurf, x, y, explosionSize=BUILD_EXPLOSION_SIZ
 
 def main():
     pygame.mouse.set_visible(False)
-    winSurface = pygame.display.set_mode((SCR_WIDTH, SCR_HEIGHT),pygame.FULLSCREEN|pygame.HWSURFACE)
+    winSurface = pygame.display.set_mode((SCR_WIDTH, SCR_HEIGHT), pygame.FULLSCREEN|pygame.HWSURFACE)
     """winSurface, being the surface object returned by pygame.display.set_mode(), will be drawn to the screen
     every time pygame.display.update() is called."""
 
@@ -785,7 +793,7 @@ def main():
                 newRound = False
 
             # Do all the drawing.
-            winSurface.blit(skylineSurf, (0,0))
+            winSurface.blit(skylineSurf, (0, 0))
             drawGorilla(winSurface, gorPos[0][0], gorPos[0][1], 0)
             drawGorilla(winSurface, gorPos[1][0], gorPos[1][1], 0)
             drawWind(winSurface, wind)
