@@ -180,12 +180,15 @@ def inputMode(prompt, screenSurf, x, y, fgcol, bgcol, maxlen=12, allowed=None, p
             cursorTimestamp = time.time()
 
         for event in pygame.event.get():
-#            print event # used mainly to monitor key values for the N900 hack
             if event.type == pygame.locals.QUIT:
                 terminate()
-            if event.type == pygame.locals.KEYDOWN:
+            elif event.type == pygame.locals.MOUSEBUTTONDOWN: # Use Screen Tap as Enter Key
+                done = True
+                if cursorShow:
+                    cursorShow = '   '
+            elif event.type == pygame.locals.KEYDOWN:
                 if event.key == pygame.locals.K_ESCAPE:
-                    return None
+                    terminate()
                 elif event.scancode == 36: # Enter key pressed
                     done = True
                     if cursorShow:
@@ -201,6 +204,87 @@ def inputMode(prompt, screenSurf, x, y, fgcol, bgcol, maxlen=12, allowed=None, p
                         inputText += getModCase(chr(event.key), event.mod)
                     elif event.unicode in ('0123456789'):
                         inputText += getModCase(event.unicode, event.mod)
+    return inputText
+
+
+_NUMBER_MAPPINGS = {
+    pygame.locals.K_PERIOD: ".",
+    pygame.locals.K_KP_PERIOD: ".",
+    pygame.locals.K_q: "1",
+    pygame.locals.K_w: "2",
+    pygame.locals.K_e: "3",
+    pygame.locals.K_r: "4",
+    pygame.locals.K_t: "5",
+    pygame.locals.K_y: "6",
+    pygame.locals.K_u: "7",
+    pygame.locals.K_i: "8",
+    pygame.locals.K_o: "9",
+    pygame.locals.K_p: "0",
+}
+
+
+def inputModeNum(prompt, screenSurf, x, y, fgcol, bgcol, maxlen=12, pos='left', cursor='_', cursorBlink=False):
+    """Takes control of the program when called. This function displays a prompt on the screen (the "prompt" string)
+    parameter) on the screenSurf surface at the x, y coordinates. The text is in the fgcol color with a bgcol color
+    background. You can optionally specify maxlen for a maximum length of the user's response. "allowed" is a string
+    of allowed characters (if the player can only type numbers, say) and ignores all other keystrokes. The "pos"
+    parameter can either be the string "left" (where the x, y coordinates refer to the top left corner of the text
+    box) or "center" (where the x, y coordinates refer to the top center of the text box).
+
+    "cursor" is an optional character that is used for a cursor to show where the next letter will go. If "cursorBlink"
+    is True, then this cursor character will blink on and off.
+
+    The returned value is a string of what the player typed in, or None if the player pressed the Esc key.
+
+    Note that the player can only press Backspace to delete characters, they cannot use the arrow keys to move the
+    cursor."""
+    inputText = ''
+    """inputText will store the text of what the player has typed in so far."""
+    done = False
+    cursorTimestamp = time.time()
+    cursorShow = cursor
+    while not done:
+        """We will keep looping until the player has pressed the Esc or Enter key."""
+
+        textrect = drawText(prompt + cursorShow, screenSurf, x, y, fgcol, bgcol, pos)
+        drawText(prompt + inputText + cursorShow, screenSurf, textrect.left, textrect.top, fgcol, bgcol, 'left')
+        pygame.display.update()
+        GAME_CLOCK.tick(FPS)
+
+        if cursor and cursorBlink and time.time() - 1.0 > cursorTimestamp:
+            if cursorShow == cursor:
+                cursorShow = '   '
+            else:
+                cursorShow = cursor
+            cursorTimestamp = time.time()
+
+        for event in pygame.event.get():
+            if event.type == pygame.locals.QUIT:
+                terminate()
+            elif event.type == pygame.locals.MOUSEBUTTONDOWN: # Use Screen Tap as Enter Key
+                done = True
+                if cursorShow:
+                    cursorShow = '   '
+            elif event.type == pygame.locals.KEYDOWN:
+                if event.key == pygame.locals.K_ESCAPE:
+                    terminate()
+                elif event.scancode == 36 or event.key in (pygame.locals.K_RETURN, pygame.locals.K_KP_ENTER):
+                    done = True
+                    if cursorShow:
+                        cursorShow = '   '
+                elif event.key == pygame.locals.K_BACKSPACE:
+                    if len(inputText):
+                        drawText(prompt + inputText + cursorShow, screenSurf, textrect.left, textrect.top, bgcol, bgcol, 'left')
+                        inputText = inputText[:-1]
+                else:
+                    if len(inputText) >= maxlen:
+                        continue
+                    if event.unicode in ('0123456789'):
+                        inputText += getModCase(event.unicode, event.mod)
+                    else:
+                        translatedChar = _NUMBER_MAPPINGS.get(event.key, None)
+                        if translatedChar is not None:
+                            inputText += getModCase(translatedChar, event.mod)
     return inputText
 
 
@@ -494,14 +578,14 @@ def showSettingsScreen(screenSurf):
         p2name = 'Player 2'
 
     while points is None:
-        points = inputMode("Play to how many total points (Default = 3)?  ", screenSurf, SCR_WIDTH / 2 - 155, 110, GRAY_COLOR, BLACK_COLOR, maxlen=6, allowed='0123456789', pos='left', cursorBlink=True)
+        points = inputModeNum("Play to how many total points (Default = 3)?  ", screenSurf, SCR_WIDTH / 2 - 155, 110, GRAY_COLOR, BLACK_COLOR, maxlen=6, pos='left', cursorBlink=True)
     if points == '':
         points = 3
     else:
-        points = int(points)
+        points = int(float(points))
 
     while gravity is None:
-        gravity = inputMode("Gravity in Meters/Sec (Earth = 9.8)?  ", screenSurf, SCR_WIDTH / 2 - 150, 140, GRAY_COLOR, BLACK_COLOR, maxlen=6, allowed='0123456789.', pos='left', cursorBlink=True)
+        gravity = inputModeNum("Gravity in Meters/Sec (Earth = 9.8)?  ", screenSurf, SCR_WIDTH / 2 - 150, 140, GRAY_COLOR, BLACK_COLOR, maxlen=6, pos='left', cursorBlink=True)
     if gravity == '':
         gravity = 9.8
     else:
@@ -510,13 +594,8 @@ def showSettingsScreen(screenSurf):
     drawText('--------------', screenSurf, SCR_WIDTH / 2 -10, 170, GRAY_COLOR, BLACK_COLOR, pos='center')
     drawText('V = View Intro', screenSurf, SCR_WIDTH / 2 -10, 200, GRAY_COLOR, BLACK_COLOR, pos='center')
     drawText('P = Play Game', screenSurf, SCR_WIDTH / 2 -10, 230, GRAY_COLOR, BLACK_COLOR, pos='center')
-    #drawText('Your Choice?', screenSurf, SCR_WIDTH / 2 -10, 260, GRAY_COLOR, BLACK_COLOR, pos='center')
+    drawText('ESC = Quit', screenSurf, SCR_WIDTH / 2 -10, 260, GRAY_COLOR, BLACK_COLOR, pos='center')
     pygame.display.update()
-
-#    key = waitForPlayerToPressKey()
-#    while chr(key) != 'v' and chr(key) != 'p':
-#        key = waitForPlayerToPressKey()
-# The chr(key) function above does not work for the N900, use the following instead
 
     while choice is None:
         choice = inputMode("Your Choice?  ", screenSurf, SCR_WIDTH / 2 - 55, 260, GRAY_COLOR, BLACK_COLOR, maxlen=1, allowed='vp', pos='left', cursorBlink=True)
@@ -559,6 +638,7 @@ def showIntroScreen(screenSurf, p1name, p2name):
         pygame.display.update()
 
         time.sleep(0.3)
+    pygame.event.clear() # Clear the queue since the user might have been confused
 
 
 def getShot(screenSurf, p1name, p2name, playerNum):
@@ -576,17 +656,17 @@ def getShot(screenSurf, p1name, p2name, playerNum):
 
     angle = ''
     while angle == '':
-        angle = inputMode('Angle:  ', screenSurf, x, 18, WHITE_COLOR, SKY_COLOR, maxlen=3, allowed='0123456789')
+        angle = inputModeNum('Angle:  ', screenSurf, x, 18, WHITE_COLOR, SKY_COLOR, maxlen=3)
     if angle is None:
         terminate()
-    angle = int(angle)
+    angle = int(float(angle))
 
     velocity = ''
     while velocity == '':
-        velocity = inputMode('Velocity:  ', screenSurf, x, 34, WHITE_COLOR, SKY_COLOR, maxlen=3, allowed='0123456789')
+        velocity = inputModeNum('Velocity:  ', screenSurf, x, 34, WHITE_COLOR, SKY_COLOR, maxlen=3)
     if velocity is None:
         terminate()
-    velocity = int(velocity)
+    velocity = int(float(velocity))
 
     # Erase the user's input
     drawText('Angle:   ' + str(angle), screenSurf, x, 2, SKY_COLOR, SKY_COLOR)
@@ -862,6 +942,7 @@ def main():
             else:
                 turn = 1
 
+        pygame.event.clear() # clears event queue, otherwise Game Over Screen does not come up
         showGameOverScreen(winSurface, p1name, p1score, p2name, p2score)
 
 if __name__ == '__main__':
