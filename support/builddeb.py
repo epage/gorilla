@@ -14,7 +14,7 @@ import constants
 __app_name__ = constants.__app_name__
 __description__ = """Remake of the Gorillas.bas banana artillery game
 .
-Homepage: https://github.com/epage/gorilla
+Homepage: http://wiki.maemo.org/Gorilla
 """
 __author__ = "Ed Page"
 __email__ = "eopage@byu.net"
