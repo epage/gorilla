@@ -13,6 +13,7 @@ import constants
 
 __app_name__ = constants.__app_name__
 __description__ = """Remake of the Gorillas.bas banana artillery game
+Written for "Inventing With Python", this remake tries to stay true to original.
 .
 Homepage: http://wiki.maemo.org/Gorilla
 """
@@ -21,11 +22,11 @@ __email__ = "eopage@byu.net"
 __version__ = constants.__version__
 __build__ = constants.__build__
 __changelog__ = """
-* Code cleanup
-* Fixed score location
-* Fixed the clock so the animations are timed correctly
-* Fixing a back with the backspace key
-* Visual elements improvements from StefanL
+* ctrl+q to quit is prevelant
+* Numeric input on QWERTY n900 without the blue key
+* Mouse press skips through menus
+* A bit more robust
+* Added a real webpage
 """.strip()
 
 
@@ -72,7 +73,7 @@ def build_package(distribution):
 	p.bugTracker = "REPLACEME"
 	p.author = __author__
 	p.mail = __email__
-	p.license = "lgpl"
+	p.license = "CC BY-NC-SA 3.0"
 	p.depends = ", ".join([
 		"python2.6 | python2.5",
 		"python-simplejson",

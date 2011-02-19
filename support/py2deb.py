@@ -382,6 +382,7 @@ Public License can be found in `/usr/share/common-licenses/GPL'.
 On Debian systems, the complete text of the GNU Lesser General
 Public License can be found in `/usr/share/common-licenses/LGPL'.
 """,
+        "CC BY-NC-SA 3.0": """Attribution-NonCommercial-ShareAlike 3.0 United States, see http://creativecommons.org/licenses/by-nc-sa/3.0/us/""",
         "bsd": """
     Redistribution and use in source and binary forms, with or without
     modification, are permitted under the terms of the BSD License.
