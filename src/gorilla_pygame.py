@@ -189,6 +189,8 @@ def inputMode(prompt, screenSurf, x, y, fgcol, bgcol, maxlen=12, allowed=None, p
             elif event.type == pygame.locals.KEYDOWN:
                 if event.key == pygame.locals.K_ESCAPE:
                     terminate()
+                elif event.key == pygame.locals.K_q and event.mod & pygame.locals.KMOD_CTRL:
+                    terminate()
                 elif event.scancode == 36: # Enter key pressed
                     done = True
                     if cursorShow:
@@ -267,6 +269,8 @@ def inputModeNum(prompt, screenSurf, x, y, fgcol, bgcol, maxlen=12, pos='left', 
                     cursorShow = '   '
             elif event.type == pygame.locals.KEYDOWN:
                 if event.key == pygame.locals.K_ESCAPE:
+                    terminate()
+                elif event.key == pygame.locals.K_q and event.mod & pygame.locals.KMOD_CTRL:
                     terminate()
                 elif event.scancode == 36 or event.key in (pygame.locals.K_RETURN, pygame.locals.K_KP_ENTER):
                     done = True
@@ -473,6 +477,8 @@ def checkForKeyPress():
         if event.type == pygame.locals.KEYUP:
             if event.key == pygame.locals.K_ESCAPE: # pressing escape quits
                 terminate()
+            elif event.key == pygame.locals.K_q and event.mod & pygame.locals.KMOD_CTRL:
+                terminate()
             return event.key
         if event.type == pygame.locals.MOUSEBUTTONDOWN:
             return True
@@ -594,7 +600,7 @@ def showSettingsScreen(screenSurf):
     drawText('--------------', screenSurf, SCR_WIDTH / 2 -10, 170, GRAY_COLOR, BLACK_COLOR, pos='center')
     drawText('V = View Intro', screenSurf, SCR_WIDTH / 2 -10, 200, GRAY_COLOR, BLACK_COLOR, pos='center')
     drawText('P = Play Game', screenSurf, SCR_WIDTH / 2 -10, 230, GRAY_COLOR, BLACK_COLOR, pos='center')
-    drawText('ESC = Quit', screenSurf, SCR_WIDTH / 2 -10, 260, GRAY_COLOR, BLACK_COLOR, pos='center')
+    drawText('Ctrl Q = Quit', screenSurf, SCR_WIDTH / 2 -10, 260, GRAY_COLOR, BLACK_COLOR, pos='center')
     pygame.display.update()
 
     while choice is None:
