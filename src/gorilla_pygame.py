@@ -20,15 +20,18 @@ The Pygame documentation is pretty good, and can be found at http://www.pygame.o
 Unfortunately there is no sound with this game.
 """
 
+import os
 import sys
 import time
 import random
 import math
 import logging
+import logging.handlers
 
 import pygame
 import pygame.locals
 
+import constants
 import images
 
 
@@ -884,7 +887,7 @@ def doExplosion(screenSurf, skylineSurf, x, y, explosionSize=BUILD_EXPLOSION_SIZ
     pygame.display.update()
 
 
-def main():
+def game_loop():
     pygame.mouse.set_visible(False)
     """winSurface, being the surface object returned by pygame.display.set_mode(), will be drawn to the screen
     every time pygame.display.update() is called."""
@@ -951,6 +954,29 @@ def main():
         pygame.event.clear() # clears event queue, otherwise Game Over Screen does not come up
         showGameOverScreen(winSurface, p1name, p1score, p2name, p2score)
 
+def main():
+    try:
+        os.makedirs(constants._data_path_)
+    except OSError, e:
+        if e.errno != 17:
+            raise
+
+    logFormat = '(%(relativeCreated)5d) %(levelname)-5s %(threadName)s.%(name)s.%(funcName)s: %(message)s'
+    logging.basicConfig(level=logging.DEBUG, format=logFormat)
+    rotating = logging.handlers.RotatingFileHandler(constants._user_logpath_, maxBytes=512*1024, backupCount=1)
+    rotating.setFormatter(logging.Formatter(logFormat))
+    root = logging.getLogger()
+    root.addHandler(rotating)
+    _moduleLogger.info("%s %s-%s" % (constants.__app_name__, constants.__version__, constants.__build__))
+    _moduleLogger.info("OS: %s" % (os.uname()[0], ))
+    _moduleLogger.info("Kernel: %s (%s) for %s" % os.uname()[2:])
+    _moduleLogger.info("Hostname: %s" % os.uname()[1])
+
+    try:
+        game_loop()
+    except:
+        _moduleLogger.exception("Bailing out")
+
+
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
     main()
