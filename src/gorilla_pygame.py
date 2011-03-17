@@ -924,10 +924,10 @@ def game_loop():
                 p1score += 1
                 newRound = True
 
-            if turn == 1:
-                turn = 2
-            else:
-                turn = 1
+            turn = {
+                1: 2,
+                2: 1,
+            }[turn]
 
         pygame.event.clear() # clears event queue, otherwise Game Over Screen does not come up
         showGameOverScreen(winSurface, p1name, p1score, p2name, p2score)
