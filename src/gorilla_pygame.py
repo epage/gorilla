@@ -125,14 +125,6 @@ def drawText(text, surfObj, x, y, fgcol, bgcol, pos='left'):
     return textrect
 
 
-def getModCase(s, mod):
-    """Checks the state of the shift and caps lock keys, and switches the case of the s string if needed."""
-    if bool(mod & pygame.locals.KMOD_RSHIFT or mod & pygame.locals.KMOD_LSHIFT) ^ bool(mod & pygame.locals.KMOD_CAPS):
-        return s.swapcase()
-    else:
-        return s
-
-
 def inputMode(prompt, screenSurf, x, y, fgcol, bgcol, maxlen=12, allowed=None, pos='left', cursor='_', cursorBlink=False):
     """Takes control of the program when called. This function displays a prompt on the screen (the "prompt" string)
     parameter) on the screenSurf surface at the x, y coordinates. The text is in the fgcol color with a bgcol color
@@ -192,9 +184,9 @@ def inputMode(prompt, screenSurf, x, y, fgcol, bgcol, maxlen=12, allowed=None, p
                     if len(inputText) >= maxlen or (allowed is not None and event.unicode not in allowed):
                         continue
                     if event.key >= 32 and event.key < 128 and event.unicode not in ('0123456789'):
-                        inputText += getModCase(chr(event.key), event.mod)
+                        inputText += pygame_utils.toProperCase(chr(event.key), event.mod)
                     elif event.unicode in ('0123456789'):
-                        inputText += getModCase(event.unicode, event.mod)
+                        inputText += pygame_utils.toProperCase(event.unicode, event.mod)
     return inputText
 
 
@@ -273,11 +265,11 @@ def inputModeNum(prompt, screenSurf, x, y, fgcol, bgcol, maxlen=12, pos='left', 
                     if len(inputText) >= maxlen:
                         continue
                     if event.unicode in ('0123456789'):
-                        inputText += getModCase(event.unicode, event.mod)
+                        inputText += pygame_utils.toProperCase(event.unicode, event.mod)
                     else:
                         translatedChar = _NUMBER_MAPPINGS.get(event.key, None)
                         if translatedChar is not None:
-                            inputText += getModCase(translatedChar, event.mod)
+                            inputText += pygame_utils.toProperCase(translatedChar, event.mod)
     return inputText
 
 

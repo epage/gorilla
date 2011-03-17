@@ -31,6 +31,14 @@ def makeSurfaceFromASCII(ascii, fgColor=(255, 255, 255), bgColor=(0, 0, 0)):
 	return surf
 
 
+def toProperCase(s, mod):
+	"""Checks the state of the shift and caps lock keys, and switches the case of the s string if needed."""
+	if bool(mod & pygame.locals.KMOD_RSHIFT or mod & pygame.locals.KMOD_LSHIFT) ^ bool(mod & pygame.locals.KMOD_CAPS):
+		return s.swapcase()
+	else:
+		return s
+
+
 if __name__ == "__main__":
 	pass
 
