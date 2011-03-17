@@ -70,7 +70,7 @@ def build_package(distribution):
 	p = py2deb.Py2deb(__app_name__)
 	p.prettyName = constants.__pretty_app_name__
 	p.description = __description__
-	p.bugTracker = "REPLACEME"
+	p.bugTracker = "https://bugs.maemo.org/enter_bug.cgi?product=Gorilla"
 	p.author = __author__
 	p.mail = __email__
 	p.license = "CC BY-NC-SA 3.0"
