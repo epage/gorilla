@@ -866,23 +866,22 @@ def doExplosion(screenSurf, skylineSurf, x, y, explosionSize=BUILD_EXPLOSION_SIZ
 
 
 def game_loop():
-    pygame.mouse.set_visible(False)
-    """winSurface, being the surface object returned by pygame.display.set_mode(), will be drawn to the screen
+    """screenSurf, being the surface object returned by pygame.display.set_mode(), will be drawn to the screen
     every time pygame.display.update() is called."""
-
     # Uncomment either of the following lines to put the game into full screen mode.
-    ##winSurface = pygame.display.set_mode((SCR_WIDTH, SCR_HEIGHT), pygame.FULLSCREEN, 32)
-    winSurface = pygame.display.set_mode((SCR_WIDTH, SCR_HEIGHT), pygame.FULLSCREEN|pygame.HWSURFACE)
+    screenSurf = pygame.display.set_mode((SCR_WIDTH, SCR_HEIGHT), pygame.FULLSCREEN|pygame.HWSURFACE)
+
     ##pygame.display.toggle_fullscreen()
     pygame.display.set_caption('Gorillas.py')
+    pygame.mouse.set_visible(False)
 
-    showStartScreen(winSurface)
+    showStartScreen(screenSurf)
 
     while True:
         # start a new game
-        p1name, p2name, winPoints, gravity, nextScreen = showSettingsScreen(winSurface)
+        p1name, p2name, winPoints, gravity, nextScreen = showSettingsScreen(screenSurf)
         if nextScreen == 'v':
-            showIntroScreen(winSurface, p1name, p2name)
+            showIntroScreen(screenSurf, p1name, p2name)
 
         # Reset the score and make it the first player's turn.
         p1score = 0
@@ -893,34 +892,34 @@ def game_loop():
         while p1score < winPoints and p2score < winPoints:
             if newRound:
                 # At the start of a new round, make a new city scape, place the gorillas, and get the wind speed.
-                skylineSurf, buildCoords = makeCityScape() # Note that the city skyline goes on skylineSurf, not winSurface.
+                skylineSurf, buildCoords = makeCityScape() # Note that the city skyline goes on skylineSurf, not screenSurf.
                 gorPos = placeGorillas(buildCoords)
                 wind = getWind()
                 newRound = False
 
             # Do all the drawing.
-            winSurface.blit(skylineSurf, (0, 0))
-            drawGorilla(winSurface, gorPos[0][0], gorPos[0][1], 0)
-            drawGorilla(winSurface, gorPos[1][0], gorPos[1][1], 0)
-            drawWind(winSurface, wind)
-            drawSun(winSurface)
-            drawScore(winSurface, p1score, p2score)
+            screenSurf.blit(skylineSurf, (0, 0))
+            drawGorilla(screenSurf, gorPos[0][0], gorPos[0][1], 0)
+            drawGorilla(screenSurf, gorPos[1][0], gorPos[1][1], 0)
+            drawWind(screenSurf, wind)
+            drawSun(screenSurf)
+            drawScore(screenSurf, p1score, p2score)
 
             pygame.display.update()
 
-            angle, velocity = getShot(winSurface, p1name, p2name, turn)
+            angle, velocity = getShot(screenSurf, p1name, p2name, turn)
             if turn == 1:
                 gorx, gory = gorPos[0][0], gorPos[0][1]
             elif turn == 2:
                 gorx, gory = gorPos[1][0], gorPos[1][1]
-            result = plotShot(winSurface, skylineSurf, angle, velocity, turn, wind, 9.8, gorPos[0], gorPos[1])
+            result = plotShot(screenSurf, skylineSurf, angle, velocity, turn, wind, 9.8, gorPos[0], gorPos[1])
 
             if result == 'gorilla1':
-                victoryDance(winSurface, gorPos[1][0], gorPos[1][1])
+                victoryDance(screenSurf, gorPos[1][0], gorPos[1][1])
                 p2score += 1
                 newRound = True
             elif result == 'gorilla2':
-                victoryDance(winSurface, gorPos[0][0], gorPos[0][1])
+                victoryDance(screenSurf, gorPos[0][0], gorPos[0][1])
                 p1score += 1
                 newRound = True
 
@@ -930,7 +929,7 @@ def game_loop():
             }[turn]
 
         pygame.event.clear() # clears event queue, otherwise Game Over Screen does not come up
-        showGameOverScreen(winSurface, p1name, p1score, p2name, p2score)
+        showGameOverScreen(screenSurf, p1name, p1score, p2name, p2score)
 
 def main():
     try:
