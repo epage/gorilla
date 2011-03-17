@@ -331,14 +331,14 @@ def makeCityScape():
     """We will choose an upward, downward, valley "v" curve, or hilly "^" curve for the slope of the buildings.
     Half of the time we will choose the valley slope shape, while the remaining three each have a 1/6 chance of
     being choosen. The slope also determines the height of the first building, which is stored in newHeight."""
-    slope = random.randint(1, 6)
-    if slope == 1:
+    slopeIndex = random.randint(1, 6)
+    if slopeIndex == 1:
         slope = 'upward'
         newHeight = 15
-    elif slope == 2:
+    elif slopeIndex == 2:
         slope = 'downward'
         newHeight = 130
-    elif 3 <= slope and slope <= 5:
+    elif 3 <= slopeIndex and slopeIndex <= 5:
         slope = 'v'
         newHeight = 15
     else:
