@@ -22,11 +22,9 @@ __email__ = "eopage@byu.net"
 __version__ = constants.__version__
 __build__ = constants.__build__
 __changelog__ = """
-* ctrl+q to quit is prevelant
-* Numeric input on QWERTY n900 without the blue key
-* Mouse press skips through menus
-* A bit more robust
-* Added a real webpage
+* Added a bugtracker
+* Small bug fixes and code cleanup
+* Rotating the debug log for reducing wasting people's space
 """.strip()
 
 
