@@ -641,23 +641,23 @@ def getShot(screenSurf, p1name, p2name, playerNum):
     else:
         x = SCR_WIDTH-100
 
-    angle = ''
-    while angle == '':
-        angle = inputModeNum('Angle:  ', screenSurf, x, 18, WHITE_COLOR, SKY_COLOR, maxlen=3)
-    if angle is None:
+    angleInput = ''
+    while angleInput == '':
+        angleInput = inputModeNum('Angle:  ', screenSurf, x, 18, WHITE_COLOR, SKY_COLOR, maxlen=3)
+    if angleInput is None:
         terminate()
-    angle = int(float(angle))
+    angle = int(float(angleInput))
 
-    velocity = ''
-    while velocity == '':
-        velocity = inputModeNum('Velocity:  ', screenSurf, x, 34, WHITE_COLOR, SKY_COLOR, maxlen=3)
-    if velocity is None:
+    velocityInput = ''
+    while velocityInput == '':
+        velocityInput = inputModeNum('Velocity:  ', screenSurf, x, 34, WHITE_COLOR, SKY_COLOR, maxlen=3)
+    if velocityInput is None:
         terminate()
-    velocity = int(float(velocity))
+    velocity = int(float(velocityInput))
 
     # Erase the user's input
-    drawText('Angle:   ' + str(angle), screenSurf, x, 2, SKY_COLOR, SKY_COLOR)
-    drawText('Velocity:   ' + str(angle), screenSurf, x, 2, SKY_COLOR, SKY_COLOR)
+    drawText('Angle:   %s ' % angleInput, screenSurf, x, 18, SKY_COLOR, SKY_COLOR)
+    drawText('Velocity:   %s ' % velocityInput, screenSurf, x, 34, SKY_COLOR, SKY_COLOR)
     pygame.display.update()
 
     if playerNum == 2:
