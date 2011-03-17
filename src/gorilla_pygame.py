@@ -108,12 +108,17 @@ def drawText(text, surfObj, x, y, fgcol, bgcol, pos='left'):
     If the pos parameter is "center", then the x,y parameter specifies the middle top point of the text rectangle."""
 
     textobj = GAME_FONT.render(text, 1, fgcol, bgcol) # creates the text in memory (it's not on a surface yet).
-    textrect = textobj.get_rect()
 
+    textrect = textobj.get_rect()
     if pos == 'left':
         textrect.topleft = (x, y)
     elif pos == 'center':
         textrect.midtop = (x, y)
+    elif pos == "right":
+        textrect.topright = (x, y)
+    else:
+        raise NotImplementedError("Unknown pos %r" % pos)
+
     surfObj.blit(textobj, textrect) # draws the text onto the surface
     """Remember that the text will only appear on the screen if you pass the pygame.Surface object that was
     returned from the call to pygame.display.set_mode(), and only after pygame.display.update() is called."""
