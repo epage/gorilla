@@ -345,7 +345,7 @@ def makeCityScape():
         slope = '^'
         newHeight = 130
 
-    bottomLine = 455 # the bottom line of the buildings. We want some space for the wind arrow to go
+    bottomLine = SCR_HEIGHT - 25 # the bottom line of the buildings. We want some space for the wind arrow to go
     heightInc = 10 # a baseline for how much buildings grow or shrink compared to the last building
     defBuildWidth = 37 # default building width, also judges how wide buildings can be
     randomHeightDiff = 120 # about how much buildings grow or shrink
