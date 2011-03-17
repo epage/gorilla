@@ -273,7 +273,7 @@ def inputModeNum(prompt, screenSurf, x, y, fgcol, bgcol, maxlen=12, pos='left', 
     return inputText
 
 
-def nextBananaShape(orient):
+def nextBananaOrientation(orient):
     return {
         RIGHT: UP,
         UP: LEFT,
@@ -666,7 +666,7 @@ def getShot(screenSurf, p1name, p2name, playerNum):
     return (angle, velocity)
 
 
-def displayScore(screenSurf, oneScore, twoScore):
+def drawScore(screenSurf, oneScore, twoScore):
     """Draws the score on the screenSurf surface."""
     scoreMessage = str(oneScore) + '>Score<' + str(twoScore)
     drawText(scoreMessage, screenSurf, SCR_WIDTH / 2, SCR_HEIGHT - 20, WHITE_COLOR, SKY_COLOR, pos='center')
@@ -702,12 +702,12 @@ def plotShot(screenSurf, skylineSurf, angle, velocity, playerNum, wind, gravity,
     pygame.display.update()
     """Draw the gorilla throwing the banana."""
 
-    bananaShape = UP
+    bananaOrient = UP
 
     if playerNum == 2:
         startx += GOR_DOWN_SURF.get_size()[0]
 
-    starty -= getBananaRect(0, 0, bananaShape).height + BAN_UP_SURF.get_size()[1]
+    starty -= getBananaRect(0, 0, bananaOrient).height + BAN_UP_SURF.get_size()[1]
 
     impact = False
     bananaInPlay = True
@@ -723,21 +723,21 @@ def plotShot(screenSurf, skylineSurf, angle, velocity, playerNum, wind, gravity,
         if x >= SCR_WIDTH - 10 or x <= 3 or y >= SCR_HEIGHT:
             bananaInPlay = False
 
-        bananaRect = getBananaRect(x, y, bananaShape)
-        if bananaShape == UP:
+        bananaRect = getBananaRect(x, y, bananaOrient)
+        if bananaOrient == UP:
             bananaSurf = BAN_UP_SURF
             bananaRect.left -= 2
             bananaRect.top += 2
-        elif bananaShape == DOWN:
+        elif bananaOrient == DOWN:
             bananaSurf = BAN_DOWN_SURF
             bananaRect.left -= 2
             bananaRect.top += 2
-        elif bananaShape == LEFT:
+        elif bananaOrient == LEFT:
             bananaSurf = BAN_LEFT_SURF
-        elif bananaShape == RIGHT:
+        elif bananaOrient == RIGHT:
             bananaSurf = BAN_RIGHT_SURF
 
-        bananaShape = nextBananaShape(bananaShape)
+        bananaOrient = nextBananaOrientation(bananaOrient)
 
         srcPixArray = pygame.PixelArray(skylineSurf)
         if bananaInPlay and y > 0:
@@ -813,14 +813,14 @@ def collideWithNonColor(pixArr, surfObj, rect, color):
     return False
 
 
-def getBananaRect(x, y, shape):
-    if shape == UP:
+def getBananaRect(x, y, orient):
+    if orient == UP:
         return pygame.Rect((x, y), BAN_UP_SURF.get_size())
-    if shape == DOWN:
+    if orient == DOWN:
         return pygame.Rect((x, y), BAN_DOWN_SURF.get_size())
-    if shape == LEFT:
+    if orient == LEFT:
         return pygame.Rect((x, y), BAN_LEFT_SURF.get_size())
-    if shape == RIGHT:
+    if orient == RIGHT:
         return pygame.Rect((x, y), BAN_RIGHT_SURF.get_size())
 
 
@@ -904,7 +904,7 @@ def game_loop():
             drawGorilla(winSurface, gorPos[1][0], gorPos[1][1], 0)
             drawWind(winSurface, wind)
             drawSun(winSurface)
-            displayScore(winSurface, p1score, p2score)
+            drawScore(winSurface, p1score, p2score)
 
             pygame.display.update()
 
@@ -954,6 +954,7 @@ def main():
         game_loop()
     except:
         _moduleLogger.exception("Bailing out")
+
 
 
 if __name__ == '__main__':
