@@ -338,7 +338,7 @@ def makeCityScape():
     elif slope == 2:
         slope = 'downward'
         newHeight = 130
-    elif slope >= 3 and slope <= 5:
+    elif 3 <= slope and slope <= 5:
         slope = 'v'
         newHeight = 15
     else:
