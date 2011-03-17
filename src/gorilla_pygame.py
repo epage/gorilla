@@ -282,12 +282,12 @@ def inputModeNum(prompt, screenSurf, x, y, fgcol, bgcol, maxlen=12, pos='left', 
 
 
 def nextBananaShape(orient):
-    """Returns the next banana shape in the sequence of 0, 1, 2, 3, then 0 again. (These correspond to the RIGHT, UP,
-    LEFT, and DOWN variables."""
-    if orient + 1 == 4:
-        return 0
-    else:
-        return orient + 1
+    return {
+        RIGHT: UP,
+        UP: LEFT,
+        LEFT: DOWN,
+        DOWN: RIGHT,
+    }[orient]
 
 
 def drawBanana(screenSurf, orient, x, y):
