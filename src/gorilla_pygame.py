@@ -33,6 +33,7 @@ import pygame.locals
 
 import constants
 import images
+from util import pygame_utils
 
 
 _moduleLogger = logging.getLogger(__name__)
@@ -83,36 +84,16 @@ def terminate():
     sys.exit()
 
 
-def makeSurfaceFromASCII(ascii, fgColor=(255, 255, 255), bgColor=(0, 0, 0)):
-    """Returns a new pygame.Surface object that has the image drawn on it as specified by the ascii parameter.
-    The first and last line in ascii are ignored. Otherwise, any X in ascii marks a pixel with the foreground color
-    and any other letter marks a pixel of the background color. The Surface object has a width of the widest line
-    in the ascii string, and is always rectangular."""
-
-    ascii = ascii.split('\n')[1:-1]
-    width = max([len(x) for x in ascii])
-    height = len(ascii)
-    surf = pygame.Surface((width, height))
-    surf.fill(bgColor)
-
-    pArr = pygame.PixelArray(surf)
-    for y in range(height):
-        for x in range(len(ascii[y])):
-            if ascii[y][x] == 'X':
-                pArr[x][y] = fgColor
-    return surf
-
-
-GOR_DOWN_SURF = makeSurfaceFromASCII(images.GOR_DOWN_ASCII, GOR_COLOR, SKY_COLOR)
-GOR_LEFT_SURF = makeSurfaceFromASCII(images.GOR_LEFT_ASCII, GOR_COLOR, SKY_COLOR)
-GOR_RIGHT_SURF = makeSurfaceFromASCII(images.GOR_RIGHT_ASCII, GOR_COLOR, SKY_COLOR)
-BAN_RIGHT_SURF = makeSurfaceFromASCII(images.BAN_RIGHT_ASCII, BAN_COLOR, SKY_COLOR)
-BAN_LEFT_SURF = makeSurfaceFromASCII(images.BAN_LEFT_ASCII, BAN_COLOR, SKY_COLOR)
-BAN_UP_SURF = makeSurfaceFromASCII(images.BAN_UP_ASCII, BAN_COLOR, SKY_COLOR)
-BAN_DOWN_SURF = makeSurfaceFromASCII(images.BAN_DOWN_ASCII, BAN_COLOR, SKY_COLOR)
-SUN_NORMAL_SURF = makeSurfaceFromASCII(images.SUN_NORMAL_ASCII, SUN_COLOR, SKY_COLOR)
-SUN_SHOCKED_SURF = makeSurfaceFromASCII(images.SUN_SHOCKED_ASCII, SUN_COLOR, SKY_COLOR)
-STAR_SURF = makeSurfaceFromASCII(images.STAR_ASCII, DARK_RED_COLOR, BLACK_COLOR)
+GOR_DOWN_SURF = pygame_utils.makeSurfaceFromASCII(images.GOR_DOWN_ASCII, GOR_COLOR, SKY_COLOR)
+GOR_LEFT_SURF = pygame_utils.makeSurfaceFromASCII(images.GOR_LEFT_ASCII, GOR_COLOR, SKY_COLOR)
+GOR_RIGHT_SURF = pygame_utils.makeSurfaceFromASCII(images.GOR_RIGHT_ASCII, GOR_COLOR, SKY_COLOR)
+BAN_RIGHT_SURF = pygame_utils.makeSurfaceFromASCII(images.BAN_RIGHT_ASCII, BAN_COLOR, SKY_COLOR)
+BAN_LEFT_SURF = pygame_utils.makeSurfaceFromASCII(images.BAN_LEFT_ASCII, BAN_COLOR, SKY_COLOR)
+BAN_UP_SURF = pygame_utils.makeSurfaceFromASCII(images.BAN_UP_ASCII, BAN_COLOR, SKY_COLOR)
+BAN_DOWN_SURF = pygame_utils.makeSurfaceFromASCII(images.BAN_DOWN_ASCII, BAN_COLOR, SKY_COLOR)
+SUN_NORMAL_SURF = pygame_utils.makeSurfaceFromASCII(images.SUN_NORMAL_ASCII, SUN_COLOR, SKY_COLOR)
+SUN_SHOCKED_SURF = pygame_utils.makeSurfaceFromASCII(images.SUN_SHOCKED_ASCII, SUN_COLOR, SKY_COLOR)
+STAR_SURF = pygame_utils.makeSurfaceFromASCII(images.STAR_ASCII, DARK_RED_COLOR, BLACK_COLOR)
 
 assert GOR_DOWN_SURF.get_size() == GOR_LEFT_SURF.get_size() == GOR_RIGHT_SURF.get_size()
 
