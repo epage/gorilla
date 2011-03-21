@@ -270,6 +270,8 @@ def inputModeNum(prompt, screenSurf, x, y, fgcol, bgcol, maxlen=12, pos='left', 
                         translatedChar = _NUMBER_MAPPINGS.get(event.key, None)
                         if translatedChar is not None:
                             inputText += pygame_utils.toProperCase(translatedChar, event.mod)
+    if inputText.startswith("."):
+        inputText = "0" + inputText
     return inputText
 
 
