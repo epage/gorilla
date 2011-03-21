@@ -22,9 +22,8 @@ __email__ = "eopage@byu.net"
 __version__ = constants.__version__
 __build__ = constants.__build__
 __changelog__ = """
-* Added a bugtracker
-* Small bug fixes and code cleanup
-* Rotating the debug log for reducing wasting people's space
+* Fixing a crash on invalid input, instead assuming "." meant to have a leading 0
+* Fixing a bug causing the "Ctrl q to quit" message not to appear
 """.strip()
 
 
