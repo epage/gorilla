@@ -587,7 +587,7 @@ def showSettingsScreen(screenSurf):
     pygame.display.update()
 
     while choice is None:
-        choice = inputMode("Your Choice?  ", screenSurf, SCR_WIDTH / 2 - 55, 260, GRAY_COLOR, BLACK_COLOR, maxlen=1, allowed='vp', pos='left', cursorBlink=True)
+        choice = inputMode("Your Choice?  ", screenSurf, SCR_WIDTH / 2 - 55, 290, GRAY_COLOR, BLACK_COLOR, maxlen=1, allowed='vp', pos='left', cursorBlink=True)
 
     return p1name, p2name, points, gravity, choice # returns 'v' or 'p'
 
