@@ -914,7 +914,7 @@ def game_loop():
                 gorx, gory = gorPos[0][0], gorPos[0][1]
             elif turn == 2:
                 gorx, gory = gorPos[1][0], gorPos[1][1]
-            result = plotShot(screenSurf, skylineSurf, angle, velocity, turn, wind, 9.8, gorPos[0], gorPos[1])
+            result = plotShot(screenSurf, skylineSurf, angle, velocity, turn, wind, gravity, gorPos[0], gorPos[1])
 
             if result == 'gorilla1':
                 victoryDance(screenSurf, gorPos[1][0], gorPos[1][1])
