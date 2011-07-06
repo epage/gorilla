@@ -22,8 +22,7 @@ __email__ = "eopage@byu.net"
 __version__ = constants.__version__
 __build__ = constants.__build__
 __changelog__ = """
-* Fixing a crash on invalid input, instead assuming "." meant to have a leading 0
-* Fixing a bug causing the "Ctrl q to quit" message not to appear
+* Bugfix: User's gravity setting was ignored
 """.strip()
 
 
